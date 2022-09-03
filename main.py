@@ -3,6 +3,10 @@ import traceback
 
 def check(text):
    '''
+   The function checks for plagiarism in a text across web
+   
+   Parameters:
+   - text (string) : value to search for plagiarism
    '''
    try:
       if text is None:
