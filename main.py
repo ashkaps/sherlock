@@ -1,6 +1,5 @@
 import similarity
 import traceback
-import json
 
 def check(text):
    '''
@@ -8,16 +7,37 @@ def check(text):
    
    Parameters:
    - text (string) : value to search for plagiarism
+
+   Response:
+   Returns a json string with results
    '''
    try:
       if text is None:
-         return json.dumps({'message':"text not sent", 'code':400})
-      report_json  = similarity.report(str(text))
+         return {'message':"text not sent"}, 400
+      report, report_json  = similarity.report(str(text))
       response = {
          'text': text,
-         'data': report_json,
-         'code':200
+         'data': report_json
       }
-      return json.dumps(response)
+      return response, 200
    except Exception as e:
-      return json.dumps({'message':traceback.format_exc(), 'code':500})
+      return {'message':traceback.format_exc()}, 500
+
+
+def check_html(text):
+   '''
+   The function checks for plagiarism in a text across web
+   
+   Parameters:
+   - text (string) : value to search for plagiarism
+
+   Response:
+   Returns a table with results
+   '''
+   try:
+      if text is None:
+         return {'message':"text not sent"}, 400
+      report, report_json  = similarity.report(str(text))
+      return (similarity.return_table(report))
+   except Exception as e:
+      return {'message':traceback.format_exc()}, 500
