@@ -1,5 +1,6 @@
 import similarity
 import traceback
+import json
 
 def check(text):
    '''
@@ -10,12 +11,13 @@ def check(text):
    '''
    try:
       if text is None:
-         return {'message':"text not sent"}, 400
+         return json.dumps({'message':"text not sent", 'code':400})
       report_json  = similarity.report(str(text))
       response = {
          'text': text,
-         'data': report_json
+         'data': report_json,
+         'code':200
       }
-      return response, 200
+      return json.dumps(response)
    except Exception as e:
-      return {'message':traceback.format_exc()}, 500
+      return json.dumps({'message':traceback.format_exc(), 'code':500})
