@@ -1,6 +1,8 @@
 import nltk
 import websearch
 from difflib import SequenceMatcher
+import pandas as pd
+
 
 nltk.download('stopwords')
 nltk.download('punkt')
@@ -37,4 +39,9 @@ def report(text):
     matches_json = []
     for k in matches.keys():
         matches_json.append({'url':k, 'score':matches[k]})
-    return matches_json
+    return matches, matches_json
+
+
+def return_table(dictionary):
+    df = pd.DataFrame({'Similarity (%)': dictionary})
+    return df.to_html()
